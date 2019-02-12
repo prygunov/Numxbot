@@ -10,7 +10,9 @@ logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 res = 0
 answer = 0
-
+type_nums = 0
+type_operation = 0
+type_time = 2
 
 
 @bot.message_handler(commands=['start', 'help'])
@@ -37,22 +39,25 @@ def send_settings(message):
 
 @bot.message_handler(commands=['next'])
 def send_next(message):
-	a = random.randint(2, 50)
-	b = random.randint(2, 50)
-	type = random.randint(0, 3)
-	global res
-	if type == 0:
+	if type_nums == 0:
+		a = random.randint(10, 99)
+		b = random.randint(10, 99)
+	elif type_nums == 1:
+		a = random.randint(100, 999)
+		b = random.randint(100, 999)
+	elif type_nums == 2:
+		a = random.randint(1000, 9999)
+		b = random.randint(1000, 9999)
+	global res, type_operation
+	if type_operation == 0:
 		res = a+b
 		bot.send_message(message.chat.id, "Сколько будет " + str(a) + " + " + str(b)+"?")
-	elif type == 1:
+	elif type_operation == 1:
 		res = a - b
 		bot.send_message(message.chat.id, "Сколько будет " + str(a) + " - " + str(b) + "?")
-	elif type == 2:
+	elif type_operation == 2:
 		res = a * b
 		bot.send_message(message.chat.id, "Сколько будет " + str(a) + " * " + str(b) + "?")
-	elif type == 3:
-		res = a // b
-		bot.send_message(message.chat.id, "Сколько будет " + str(a) + " // " + str(b) + "?")
 
 
 @bot.message_handler(func=lambda m: True)
@@ -67,7 +72,7 @@ def echo_all(message):
 			send_next(message)
 		elif str(message.text) == "Числа":
 			markup = types.ReplyKeyboardMarkup(row_width=1)
-			itembtn1 = types.KeyboardButton('Двузначные')
+			itembtn1 = types.KeyboardButton('Двухзначные')
 			itembtn2 = types.KeyboardButton('Трехзначные')
 			itembtn3 = types.KeyboardButton('Четырехзначные')
 			markup.add(itembtn1, itembtn2, itembtn3)
@@ -75,9 +80,9 @@ def echo_all(message):
 			bot.send_message(message.chat.id, "Какие желаешь?", reply_markup=markup)
 		elif str(message.text) == "Операцию":
 			markup = types.ReplyKeyboardMarkup(row_width=1)
-			itembtn1 = types.KeyboardButton('Двузначные')
-			itembtn2 = types.KeyboardButton('Трехзначные')
-			itembtn3 = types.KeyboardButton('Четырехзначные')
+			itembtn1 = types.KeyboardButton('Сложение')
+			itembtn2 = types.KeyboardButton('Вычитание')
+			itembtn3 = types.KeyboardButton('Умножение')
 			markup.add(itembtn1, itembtn2, itembtn3)
 
 			bot.send_message(message.chat.id, "Что предпочитаешь?", reply_markup=markup)
@@ -89,6 +94,21 @@ def echo_all(message):
 			markup.add(itembtn1, itembtn2, itembtn3)
 
 			bot.send_message(message.chat.id, "Быстро считаешь?", reply_markup=markup)
+		else:
+			global type_nums, type_operation, type_time
+			if str(message.text) == "Двухзначные":
+				type_nums = 0
+			elif str(message.text) == "Трехзначные":
+				type_nums = 1
+			elif str(message.text) == "Четырехзначные":
+				type_nums = 1
+			elif str(message.text) == "Сложение":
+				type_operation = 0
+			elif str(message.text) == "Вычитание":
+				type_operation = 1
+			elif str(message.text) == "Умножение":
+				type_operation = 2
+
 	elif answer != 0:
 		if answer == res:
 			bot.send_message(message.chat.id, "Правильно! +1 очко Гриффиндору!")
@@ -98,4 +118,5 @@ def echo_all(message):
 		itembtn1 = types.KeyboardButton('Дальше!')
 		markup.add(itembtn1)
 		bot.send_message(message.chat.id, "Дальше?", reply_markup=markup)
+
 bot.polling()
