@@ -26,7 +26,7 @@ def send_welcome(message):
 def send_settings(message):
 
 	bot.send_message(message.chat.id, "Кто сказал настройки?")
-	time.sleep(3)
+	time.sleep(2)
 	markup = types.ReplyKeyboardMarkup(row_width=2)
 	itembtn1 = types.KeyboardButton('Числа')
 	itembtn2 = types.KeyboardButton('Операцию')
@@ -64,8 +64,31 @@ def echo_all(message):
 		answer = 0
 	if answer == 0:
 		if str(message.text) == "Дальше!":
-			print(1)
 			send_next(message)
+		elif str(message.text) == "Числа":
+			markup = types.ReplyKeyboardMarkup(row_width=1)
+			itembtn1 = types.KeyboardButton('Двузначные')
+			itembtn2 = types.KeyboardButton('Трехзначные')
+			itembtn3 = types.KeyboardButton('Четырехзначные')
+			markup.add(itembtn1, itembtn2, itembtn3)
+
+			bot.send_message(message.chat.id, "Какие желаешь?", reply_markup=markup)
+		elif str(message.text) == "Операцию":
+			markup = types.ReplyKeyboardMarkup(row_width=1)
+			itembtn1 = types.KeyboardButton('Двузначные')
+			itembtn2 = types.KeyboardButton('Трехзначные')
+			itembtn3 = types.KeyboardButton('Четырехзначные')
+			markup.add(itembtn1, itembtn2, itembtn3)
+
+			bot.send_message(message.chat.id, "Что предпочитаешь?", reply_markup=markup)
+		elif str(message.text) == "Время":
+			markup = types.ReplyKeyboardMarkup(row_width=1)
+			itembtn1 = types.KeyboardButton('5 секунд')
+			itembtn2 = types.KeyboardButton('10 секунд')
+			itembtn3 = types.KeyboardButton('20 секунд')
+			markup.add(itembtn1, itembtn2, itembtn3)
+
+			bot.send_message(message.chat.id, "Быстро считаешь?", reply_markup=markup)
 	elif answer != 0:
 		if answer == res:
 			bot.send_message(message.chat.id, "Правильно! +1 очко Гриффиндору!")
