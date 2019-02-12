@@ -94,6 +94,8 @@ def echo_all(message):
 			markup.add(itembtn1, itembtn2, itembtn3)
 
 			bot.send_message(message.chat.id, "Быстро считаешь?", reply_markup=markup)
+		elif str(message.text) == "Стоп":
+			send_welcome()
 		else:
 			global type_nums, type_operation, type_time
 			if str(message.text) == "Двухзначные":
@@ -101,7 +103,7 @@ def echo_all(message):
 			elif str(message.text) == "Трехзначные":
 				type_nums = 1
 			elif str(message.text) == "Четырехзначные":
-				type_nums = 1
+				type_nums = 2
 			elif str(message.text) == "Сложение":
 				type_operation = 0
 			elif str(message.text) == "Вычитание":
@@ -116,7 +118,8 @@ def echo_all(message):
 			bot.send_message(message.chat.id, "Неа, правильный ответ " + str(res))
 		markup = types.ReplyKeyboardMarkup(row_width=1)
 		itembtn1 = types.KeyboardButton('Дальше!')
-		markup.add(itembtn1)
+		itembtn2 = types.KeyboardButton('Стоп')
+		markup.add(itembtn1, itembtn2)
 		bot.send_message(message.chat.id, "Дальше?", reply_markup=markup)
 
 bot.polling()
