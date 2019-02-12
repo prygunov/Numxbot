@@ -32,9 +32,22 @@ def send_settings(message):
     itembtn1 = types.KeyboardButton('Числа')
     itembtn2 = types.KeyboardButton('Операцию')
     itembtn3 = types.KeyboardButton('Время')
-    markup.add(itembtn1, itembtn2, itembtn3)
+    itembtn4 = types.KeyboardButton('Дальше!')
+    markup.add(itembtn1, itembtn2, itembtn3, itembtn4)
 
     bot.send_message(message.chat.id, "Определимся, что ты хочешь изменить..", reply_markup=markup)
+def send_random(message):
+    i = random.randint(0, 5)
+    if i == 1:
+        bot.send_message(message.chat.id, "Отлично!")
+    elif i == 2:
+        bot.send_message(message.chat.id, "Супер!")
+    elif i == 3:
+        bot.send_message(message.chat.id, "Хорошо..")
+    elif i == 4:
+        bot.send_message(message.chat.id, "Вау!")
+    elif i == 5:
+        bot.send_message(message.chat.id, "А ты смельчак..")
 
 @bot.message_handler(commands=['next'])
 def send_next(message):
@@ -104,16 +117,22 @@ def echo_all(message):
             global type_nums, type_operation, type_time
             if str(message.text) == "Двухзначные":
                 type_nums = 0
+                send_random(message)
             elif str(message.text) == "Трехзначные":
                 type_nums = 1
+                send_random(message)
             elif str(message.text) == "Четырехзначные":
                 type_nums = 2
+                send_random(message)
             elif str(message.text) == "Сложение":
                 type_operation = 0
+                send_random(message)
             elif str(message.text) == "Вычитание":
                 type_operation = 1
+                send_random(message)
             elif str(message.text) == "Умножение":
                 type_operation = 2
+                send_random(message)
             else:
                 bot.send_message(message.chat.id, "Я такой команды не знаю..\n Узнай обо мне подробнее нажав /help")
 
