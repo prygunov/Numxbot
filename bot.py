@@ -1,13 +1,10 @@
 import logging
 import random
-import time
 from telebot import apihelper
 import telebot
 from telebot import types
 apihelper.proxy = {'http':'http://142.93.251.123:8080'}
 bot = telebot.TeleBot("749160827:AAEA1SDfQkEdn5t8-cV7VD9frHpxfdJ1rVo")
-logger = telebot.logger
-telebot.logger.setLevel(logging.DEBUG)
 res = 0
 answer = 0
 type_nums = 0
